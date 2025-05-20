@@ -4,10 +4,10 @@ import React from "react";
 import { motion } from "motion/react";
 import { Folder, HeartHandshakeIcon, SparklesIcon, AudioLines, GitPullRequest, Play, CircleArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface WorkflowSchemaProps {
   className?: string;
-  circleText?: string;
   badgeTexts?: {
     first: string;
     second: string;
@@ -24,7 +24,6 @@ interface WorkflowSchemaProps {
 
 const WorkflowSchema = ({
   className,
-  circleText,
   badgeTexts,
   buttonTexts,
   title,
@@ -248,10 +247,10 @@ const WorkflowSchema = ({
         </div>
         {/* box outter circle */}
         <div className="absolute -bottom-8 z-30 grid h-[60px] w-[60px] place-items-center rounded-full border-t border-white/10 bg-[#141516] text-white font-semibold text-xs">
-        <img
+        <Image
            src="/images/vocalis_logo_white.svg"
            alt="Fond"
-           className="w-5 h-5"
+           width={20} height={20}
         />
         </div>
         {/* box content */}
@@ -301,25 +300,3 @@ const WorkflowSchema = ({
 };
 
 export default WorkflowSchema;
-
-const DatabaseIcon = ({ x = "0", y = "0" }: { x: string; y: string }) => {
-  return (
-    <svg
-      x={x}
-      y={y}
-      xmlns="http://www.w3.org/2000/svg"
-      width="5"
-      height="5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="white"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <ellipse cx="12" cy="5" rx="9" ry="3" />
-      <path d="M3 5V19A9 3 0 0 0 21 19V5" />
-      <path d="M3 12A9 3 0 0 0 21 12" />
-    </svg>
-  );
-};

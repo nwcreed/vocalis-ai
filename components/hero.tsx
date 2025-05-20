@@ -1,8 +1,6 @@
 'use client';
 
 import { Ripple } from "@/components/magicui/ripple";
-import { motion } from 'framer-motion';
-import { MoveRight, PhoneCall } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from './ui/input';
@@ -45,7 +43,7 @@ export const Hero = React.forwardRef((props, ref) => {
       } else {
         setMessage(data.error || "Erreur lors de l'enregistrement.");
       }
-    } catch (error) {
+    } catch {
       setMessage("Erreur réseau. Réessayez plus tard.");
     } finally {
       setLoading(false);
@@ -110,3 +108,6 @@ export const Hero = React.forwardRef((props, ref) => {
     </div>
   );
 });
+
+Hero.displayName = "Hero";
+export default Hero;

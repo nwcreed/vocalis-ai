@@ -1,5 +1,4 @@
 'use client'
-import { Case } from '@/components/case';
 import { CTA } from '@/components/cta';
 import { MainFeature } from '@/components/main_feature';
 import { Features } from '@/components/features';

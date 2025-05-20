@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
     const saved = await prisma.email.create({ data: { address: email } });
     return NextResponse.json({ message: "Email saved", email: saved.address });
   } catch (error) {
+    console.error("Erreur lors de l'enregistrement de l'email :", error);
     return NextResponse.json({ error: "Email already exists or DB error" }, { status: 500 });
   }
 }

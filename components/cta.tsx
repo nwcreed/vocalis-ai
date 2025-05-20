@@ -1,10 +1,9 @@
-import { MoveRight, PhoneCall } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import React, { useRef, useState } from "react";
 
-export const CTA = React.forwardRef((props, ref) => {
+export const CTA = React.forwardRef(() => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -13,17 +12,17 @@ export const CTA = React.forwardRef((props, ref) => {
     setMessage(null);
     const email = inputRef.current?.value;
 
-    if (!email || !email.includes('@')) {
-      setMessage("Merci d'entrer un email valide.");
+    if (!email || !email.includes("@")) {
+      setMessage("Merci d&apos;entrer un email valide.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch('/api/emails', {  // adapte ce chemin à ta route API
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
@@ -31,11 +30,11 @@ export const CTA = React.forwardRef((props, ref) => {
 
       if (response.ok) {
         setMessage(`Merci ! Email enregistré: ${data.email}`);
-        if (inputRef.current) inputRef.current.value = '';
+        if (inputRef.current) inputRef.current.value = "";
       } else {
-        setMessage(data.error || "Erreur lors de l'enregistrement.");
+        setMessage(data.error || "Erreur lors de l&apos;enregistrement.");
       }
-    } catch (error) {
+    } catch {
       setMessage("Erreur réseau. Réessayez plus tard.");
     } finally {
       setLoading(false);
@@ -54,7 +53,9 @@ export const CTA = React.forwardRef((props, ref) => {
               Une nouvelle façon de gérer vos appels.
             </h3>
             <p className="text-lg leading-relaxed tracking-tight text-muted-foreground max-w-xl">
-              Programmez vos campagnes, définissez les étapes à suivre, et laissez l’agent vocal gérer chaque conversation. — La version bêta arrive. Rejoignez la liste d'attente.
+              Programmez vos campagnes, définissez les étapes à suivre, et laissez
+              l’agent vocal gérer chaque conversation. — La version bêta arrive.
+              Rejoignez la liste d&apos;attente.
             </p>
           </div>
           <div className="flex flex-row gap-3  w-full max-w-lg">
@@ -73,21 +74,17 @@ export const CTA = React.forwardRef((props, ref) => {
               disabled={loading}
             />
             <Button size="lg" className="flex-[1]" onClick={handleSubmit} disabled={loading}>
-              {loading ? "Envoi..." : (
-                <>
-                  Rejoignez la bêta
-                </>
-              )}
+              {loading ? "Envoi..." : <>Rejoignez la bêta</>}
             </Button>
           </div>
 
           {message && (
-            <p className="mt-4 text-center text-sm text-red-600">
-              {message}
-            </p>
+            <p className="mt-4 text-center text-sm text-red-600">{message}</p>
           )}
         </div>
       </div>
     </div>
-  )
+  );
 });
+
+CTA.displayName = "CTA";

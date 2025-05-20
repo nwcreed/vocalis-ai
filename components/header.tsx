@@ -12,10 +12,8 @@ import {
 import { Menu, MoveRight, X } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
-interface HeaderProps {
-  onClickPreInscription: () => void;
-}
 export const Header = ({ onClickPreInscription }: { onClickPreInscription: () => void }) => {
   const navigationItems = [
     {
@@ -41,10 +39,10 @@ export const Header = ({ onClickPreInscription }: { onClickPreInscription: () =>
   <div className="container mx-auto flex items-center justify-between min-h-14 px-4 py-2 gap-4">
     
     {/* Logo + texte */}
-    <a href="/" className="flex items-center gap-3 flex-shrink-0">
-      <img src="/images/vocalis_logo.svg" alt="Logo" className="h-5 w-5" />
+    <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+      <Image src="/images/vocalis_logo.svg" alt="Logo"  width={20} height={20} />
       <p className="font-bold text-lg font-sans">Vocalis AI</p>
-    </a>
+    </Link>
 
     {/* Navigation - peut prendre plus d’espace */}
     <div className="flex-1 lg:flex lg:justify-center hidden">
