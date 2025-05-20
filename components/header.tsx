@@ -13,45 +13,44 @@ import { Menu, MoveRight, X } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 
-export const Header = () => {
+interface HeaderProps {
+  onClickPreInscription: () => void;
+}
+export const Header = ({ onClickPreInscription }: { onClickPreInscription: () => void }) => {
   const navigationItems = [
     {
-      title: 'Home',
-      href: '/',
+      title: 'Accueil',
+      href: '#accueil',
       description: '',
     },
     {
-      title: 'Product',
-      description: 'Managing a small business today is already tough.',
-      items: [
-        {
-          title: 'Reports',
-          href: '/reports',
-        },
-        {
-          title: 'Statistics',
-          href: '/statistics',
-        },
-        {
-          title: 'Dashboards',
-          href: '/dashboards',
-        },
-        {
-          title: 'Recordings',
-          href: '/recordings',
-        },
-      ],
+      title: 'Fonctionnalités',
+      href: '#fonctionnalités',
+      description: '',
+    },
+     {
+      title: 'Tarifs',
+      href: '#tarifs',
+      description: '',
     },
   ];
 
   const [isOpen, setOpen] = useState(false);
   return (
-    <header className='w-full z-40 fixed top-0 left-0 bg-background border-b shadow-sm'>
-      <div className='container relative mx-auto min-h-14 flex gap-4 flex-row lg:grid lg:grid-cols-2 items-center'>
-        <div className='justify-start items-center gap-4 lg:flex flex-row'>
-          <NavigationMenu className='flex justify-start items-start'>
-            <NavigationMenuList className='flex justify-start flex-row'>
-              {navigationItems.map((item) => (
+    <header className="w-full z-40 fixed top-0 left-0 bg-white/70 backdrop-blur-md border-b">
+  <div className="container mx-auto flex items-center justify-between min-h-14 px-4 py-2 gap-4">
+    
+    {/* Logo + texte */}
+    <a href="/" className="flex items-center gap-3 flex-shrink-0">
+      <img src="/images/vocalis_logo.svg" alt="Logo" className="h-5 w-5" />
+      <p className="font-bold text-lg font-sans">Vocalis AI</p>
+    </a>
+
+    {/* Navigation - peut prendre plus d’espace */}
+    <div className="flex-1 lg:flex lg:justify-center hidden">
+      <NavigationMenu className="flex justify-center">
+        <NavigationMenuList className="flex space-x-4">
+          {navigationItems.map((item) => (
                 <NavigationMenuItem key={item.title}>
                   {item.href ? (
                     <>
@@ -78,16 +77,6 @@ export const Header = () => {
                             </Button>
                           </div>
                           <div className='flex flex-col text-sm h-full justify-end'>
-                            {item.items?.map((subItem) => (
-                              <NavigationMenuLink
-                                href={subItem.href}
-                                key={subItem.title}
-                                className='flex flex-row justify-between items-center hover:bg-muted py-2 px-4 rounded'
-                              >
-                                <span>{subItem.title}</span>
-                                <MoveRight className='w-4 h-4 text-muted-foreground' />
-                              </NavigationMenuLink>
-                            ))}
                           </div>
                         </div>
                       </NavigationMenuContent>
@@ -99,12 +88,10 @@ export const Header = () => {
           </NavigationMenu>
         </div>
         <div className='flex justify-end w-full gap-4'>
-          <Button variant='ghost' className='hidden md:inline'>
-            Book a demo
-          </Button>
           <div className='border-r hidden md:inline'></div>
-          <Button variant='outline'>Sign in</Button>
-          <Button>Get started</Button>
+           <Button variant='outline' onClick={onClickPreInscription}>
+      Pré-inscription
+    </Button>
         </div>
         <div className='flex w-12 shrink lg:hidden items-end justify-end'>
           <Button variant='ghost' onClick={() => setOpen(!isOpen)}>
@@ -126,19 +113,6 @@ export const Header = () => {
                     ) : (
                       <p className='text-lg'>{item.title}</p>
                     )}
-                    {item.items &&
-                      item.items.map((subItem) => (
-                        <Link
-                          key={subItem.title}
-                          href={subItem.href}
-                          className='flex justify-between items-center'
-                        >
-                          <span className='text-muted-foreground'>
-                            {subItem.title}
-                          </span>
-                          <MoveRight className='w-4 h-4 stroke-1' />
-                        </Link>
-                      ))}
                   </div>
                 </div>
               ))}

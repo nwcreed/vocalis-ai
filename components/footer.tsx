@@ -3,54 +3,25 @@ import Link from 'next/link';
 export const Footer = () => {
   const navigationItems = [
     {
-      title: 'Home',
-      href: '/',
-      description: '',
-    },
-    {
-      title: 'Product',
-      description: 'Managing a small business today is already tough.',
-      items: [
+      title: 'Accueil',
+      href: '#accueil',
+   items: [
         {
-          title: 'Reports',
-          href: '/reports',
+          title: 'Fonctionnalités',
+          href: '#fonctionnalités'
         },
         {
-          title: 'Statistics',
-          href: '/statistics',
-        },
-        {
-          title: 'Dashboards',
-          href: '/dashboards',
-        },
-        {
-          title: 'Recordings',
-          href: '/recordings',
-        },
+          title: 'Tarifs',
+          href: '#tarifs',
+        }
       ],
     },
-    {
-      title: 'Company',
-      description: 'Managing a small business today is already tough.',
-      items: [
-        {
-          title: 'About us',
-          href: '/about',
-        },
-        {
-          title: 'Fundraising',
-          href: '/fundraising',
-        },
-        {
-          title: 'Investors',
-          href: '/investors',
-        },
-        {
-          title: 'Contact us',
-          href: '/contact',
-        },
-      ],
-    },
+   {
+    title: 'Company',
+    items: [
+      { title: 'Mentions légales', href: '/legal' },  // page légale si tu en as
+    ],
+  },
   ];
 
   return (
@@ -60,21 +31,12 @@ export const Footer = () => {
           <div className='flex gap-8 flex-col items-start'>
             <div className='flex gap-2 flex-col'>
               <h2 className='text-3xl md:text-5xl tracking-tighter max-w-xl font-regular text-left'>
-                TWBlocks™
+                Vocalis AI
               </h2>
-              <p className='text-lg max-w-lg leading-relaxed tracking-tight text-background/75 text-left'>
-                Managing a small business today is already tough.
-              </p>
             </div>
             <div className='flex gap-20 flex-row'>
               <div className='flex flex-col text-sm max-w-lg leading-relaxed tracking-tight text-background/75 text-left'>
-                <p>1 Tailwind Way</p>
-                <p>Menlo Park</p>
-                <p>CA 94025</p>
-              </div>
-              <div className='flex flex-col text-sm max-w-lg leading-relaxed tracking-tight text-background/75 text-left'>
-                <Link href='/'>Terms of service</Link>
-                <Link href='/'>Privacy Policy</Link>
+                <p>vocalisai.beta@gmail.com</p>
               </div>
             </div>
           </div>

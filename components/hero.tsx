@@ -1,85 +1,112 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-
+import { Ripple } from "@/components/magicui/ripple";
 import { motion } from 'framer-motion';
-
 import { MoveRight, PhoneCall } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
+import { Input } from './ui/input';
+import React, { useImperativeHandle, useRef, useState } from "react";
 
-export const Hero = () => {
-  const [titleNumber, setTitleNumber] = useState(0);
-  const titles = useMemo(
-    () => ['amazing', 'new', 'wonderful', 'beautiful', 'smart'],
-    []
-  );
+export const Hero = React.forwardRef((props, ref) => {
+ const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (titleNumber === titles.length - 1) {
-        setTitleNumber(0);
+  useImperativeHandle(ref, () => ({
+    focusInput: () => {
+      inputRef.current?.focus();
+    },
+  }));
+  
+  const handleSubmit = async () => {
+    setMessage(null);
+    const email = inputRef.current?.value;
+
+    if (!email || !email.includes('@')) {
+      setMessage("Merci d'entrer un email valide.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/emails', {  // adapte ce chemin à ta route API
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(`Merci ! Email enregistré: ${data.email}`);
+        if(inputRef.current) inputRef.current.value = '';
       } else {
-        setTitleNumber(titleNumber + 1);
+        setMessage(data.error || "Erreur lors de l'enregistrement.");
       }
-    }, 2000);
-    return () => clearTimeout(timeoutId);
-  }, [titleNumber, titles]);
+    } catch (error) {
+      setMessage("Erreur réseau. Réessayez plus tard.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className='w-full bg-gray-100 px-4 md:px-0'>
-      <div className='container mx-auto'>
-        <div className='flex gap-8 py-20 lg:py-40 items-center justify-center flex-col'>
-          <div>
-            <Button variant='secondary' size='sm' className='gap-4'>
-              Read our launch article <MoveRight className='w-4 h-4' />
-            </Button>
-          </div>
+    <div className="relative w-screen px-4 md:px-0 overflow-hidden" id="accueil">
+      
+      {/* Ripple background */}
+      <div className="absolute inset-0 -z-10">
+        <Ripple />
+      </div>
+
+      <div className="container mx-auto">
+        <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col">
           <div className='flex gap-4 flex-col'>
             <h1 className='text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-regular'>
-              <span className='text-spektr-cyan-50'>This is something</span>
+              <span className='text-spektr-cyan-50'>Révolutionnez votre relation client avec</span>
               <span className='relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1'>
-                &nbsp;
-                {titles.map((title, index) => (
-                  <motion.span
-                    key={index}
-                    className='absolute font-semibold'
-                    initial={{ opacity: 0, y: '-100' }}
-                    transition={{ type: 'spring', stiffness: 50 }}
-                    animate={
-                      titleNumber === index
-                        ? {
-                            y: 0,
-                            opacity: 1,
-                          }
-                        : {
-                            y: titleNumber > index ? -150 : 150,
-                            opacity: 0,
-                          }
-                    }
-                  >
-                    {title}
-                  </motion.span>
-                ))}
+                un agent IA
               </span>
             </h1>
 
             <p className='text-lg md:text-xl leading-relaxed tracking-tight text-muted-foreground max-w-2xl text-center'>
-              Managing a small business today is already tough. Avoid further
-              complications by ditching outdated, tedious trade methods. Our
-              goal is to streamline SMB trade, making it easier and faster than
-              ever.
+              Créez facilement votre propre agent IA personnalisé et automatisez vos appels avec une voix ultra réaliste. Vocalis AI transforme la relation client en offrant un service 24/7, naturel et efficace, tout en libérant vos équipes.
             </p>
           </div>
-          <div className='flex flex-row gap-3'>
-            <Button size='lg' className='gap-4' variant='outline'>
-              Jump on a call <PhoneCall className='w-4 h-4' />
-            </Button>
-            <Button size='lg' className='gap-4'>
-              Sign up here <MoveRight className='w-4 h-4' />
+
+          <div className="flex flex-row gap-3 w-full max-w-lg">
+            <Input
+              ref={inputRef}
+              type="email"
+              placeholder="Email"
+              className="flex-[2] min-w-0 focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-blue-500
+    focus-visible:ring-offset-2
+    focus-visible:shadow-lg
+    transition
+    duration-200
+    ease-in-out"
+              disabled={loading}
+            />
+            <Button size="lg" className="flex-[1]" onClick={handleSubmit} disabled={loading}>
+             {loading ? "Envoi..." : (
+              <>
+                Pré-inscription
+              </>
+             )}
             </Button>
           </div>
+
+          {message && (
+            <p className="mt-4 text-center text-sm text-red-600">
+              {message}
+            </p>
+          )}
+          <label className="text-muted-foreground text-sm">Soyez le premier à tester gratuitement</label>
         </div>
       </div>
     </div>
   );
-};
+});
