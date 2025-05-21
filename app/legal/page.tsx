@@ -24,7 +24,7 @@ const PrivacyPolicy = () => {
         <p>
           Merci de votre visite sur Vocalis AI. Cette politique de confidentialité décrit
           comment nous collectons, utilisons et protégeons vos informations personnelles et
-          non personnelles lorsque vous utilisez notre site web à l&apos;adresse https://quillminds.com.
+          non personnelles lorsque vous utilisez notre site web à l&apos;adresse https://vocalis-ai-six.vercel.app
         </p>
 
         <p>
